@@ -22,7 +22,7 @@ jobs:
           java-version: 17
 
       - name: Build Project
-        run: mvn clean package --DskipTests
+        run: mvn clean package -DskipTests
 
       - name: Build Docker Image
         run: docker build -t uber-mini .
