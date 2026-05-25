@@ -26,3 +26,14 @@ jobs:
 
       - name: Build Docker Image
         run: docker build -t uber-mini .
+      
+      - name: Loginto Docker Hub
+        uses: docker/login-action@v3
+        with: 
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Push docker Image
+        run: |
+          docker tag uber-mini ${{ secrets.DOCKER_USERNAME}}/uber-mini:latest
+          docker push ${{secrets.DOCKER_USERNAME}}/uber-mini:latest
