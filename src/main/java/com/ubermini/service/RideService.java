@@ -3,6 +3,7 @@ package com.ubermini.service;
 import com.ubermini.dto.RideRequestDto;
 import com.ubermini.event.RideRequestedEvent;
 import com.ubermini.kafka.RideEventProducer;
+import com.ubermini.metrics.RideMetrics;
 import com.ubermini.model.Ride;
 import com.ubermini.model.RideStatus;
 import com.ubermini.repository.RideRepository;
@@ -22,6 +23,7 @@ public class RideService {
     private final MatchingService matchingService;
     private final NotificationService notificationService;
     private final RideEventProducer producer;
+    private final RideMetrics rideMetrics;
 
     public Ride requestRide(
             RideRequestDto request
@@ -45,7 +47,7 @@ public class RideService {
         								saved.getRiderId(),
         								saved.getPickupLat(),
         								saved.getPickupLng()));
-        
+        rideMetrics.incrementRideRequests();
         return saved;
     }
     
@@ -57,6 +59,7 @@ public class RideService {
     	Ride saved = rideRepository.save(ride);
     	
     	notificationService.notifyRider(ride.getRiderId().toString(), saved);
+    	 rideMetrics.incrementRidesAccepted();
     	return saved;
     	
     }
