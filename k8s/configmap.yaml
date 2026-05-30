@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: uber-config
+  namespace: uber-mini
+
+data:
+  SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-service:5432/uber
+  SPRING_DATA_REDIS_HOST: redis-service
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-service:9092
